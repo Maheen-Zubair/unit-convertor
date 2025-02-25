@@ -17,7 +17,7 @@ def convert_length(value, from_unit, to_unit):
     return value * conversion_factors.get(from_unit, {}).get(to_unit, 1)
 
 st.set_page_config(page_title="Unit Converter", layout="centered")
-st.title("Unit Converte ")
+st.title("Unit Converter ")
 
 value = st.number_input("Enter Value", min_value=0.0, value=1.0)
 from_unit = st.selectbox("From", list(conversion_factors.keys()))
