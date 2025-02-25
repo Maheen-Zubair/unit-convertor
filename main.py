@@ -11,13 +11,24 @@ conversion_factors = {
     "Inch": {"Metre": 0.0254, "Kilometre": 0.0000254, "Centimetre": 2.54, "Millimetre": 25.4, "Micrometre": 25400, "Nanometre": 25400000, "Mile": 0.0000157828, "Yard": 0.0277778, "Foot": 0.0833333}
 }
 
+# Unit Descriptions
+unit_info = {
+    "Nautical mile": "Used in aviation & maritime navigation.",
+    "Kilometre": "Commonly used for measuring road distances.",
+    "Metre": "Standard unit of length in the metric system.",
+    "Centimetre": "Used for small measurements like height & width.",
+    "Millimetre": "Used for very small lengths, like paper thickness.",
+    "Mile": "Mainly used in the US and UK for road distances.",
+    "Foot": "Commonly used for measuring height & room dimensions.",
+    "Inch": "Used in the US for screens, papers, & small objects."
+}
 def convert_length(value, from_unit, to_unit):
     if from_unit == to_unit:
         return value
     return value * conversion_factors.get(from_unit, {}).get(to_unit, 1)
 
 st.set_page_config(page_title="Unit Converter", layout="centered")
-st.title("Unit Converter ")
+st.title("Unit Converter📏")
 
 value = st.number_input("Enter Value", min_value=0.0, value=1.0)
 from_unit = st.selectbox("From", list(conversion_factors.keys()))
@@ -27,4 +38,13 @@ converted_value = convert_length(value, from_unit, to_unit)
 st.success(f"✏ {value} {from_unit} = {converted_value} {to_unit}")
 
 conversion_factor = conversion_factors.get(from_unit, {}).get(to_unit, 1)
-st.markdown(f"**Formula**: multiply the length value by {conversion_factor}")
+if conversion_factor >= 1:
+    formula = f"Multiply the length value by {conversion_factor}"
+else:
+    formula = f"Divide the length value by {1/conversion_factor}"
+
+st.markdown(f"**Formula**: {formula}")
+
+with st.expander("ℹ️ More about selected units"):
+    st.write(f"**{from_unit}:** {unit_info.get(from_unit, 'No information available.')}")
+    st.write(f"**{to_unit}:** {unit_info.get(to_unit, 'No information available.')}")
